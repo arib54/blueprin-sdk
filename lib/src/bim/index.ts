@@ -4,6 +4,7 @@
 
 export { BimEngine } from './bim-engine.js';
 export { BimClient } from './bim-client.js';
+export { parseIfcFile } from './ifc-parser.js';
 export type {
   BimElementType,
   BimDimensions,
@@ -12,3 +13,4 @@ export type {
   BimModelSummary,
   BimModel,
 } from './types.js';
+export type { IfcParseResult, IfcParseOptions } from './ifc-parser.js';

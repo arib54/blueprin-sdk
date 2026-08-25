@@ -3,4 +3,42 @@
  */
 
 export { CollabClient } from './collab-client.js';
-export type { CollabUser, CollabRoom, CollabMessage } from './types.js';
+export type { CollabClientOptions } from './collab-client.js';
+export { CollabTransport } from './collab-transport.js';
+export {
+  createOperation,
+  applyOperation,
+  resolveConflicts,
+  incrementClock,
+  mergeClocks,
+  happenedBefore,
+  areConcurrent,
+} from './collab-crdt.js';
+export { COLLAB_ROLE_DEFINITIONS } from './types.js';
+export type {
+  CollabUser,
+  CollabRoom,
+  CollabMessage,
+  CollabOperation,
+  CollabTransportConfig,
+  CollabTransportEvents,
+  CollabDocumentState,
+  CollabRoleName,
+  CollabPermissionKey,
+  CollabRoleDefinition,
+  CollabCollaborator,
+  InviteCollaboratorOptions,
+  CollabInviteResult,
+  CreateCollabSessionOptions,
+  CollabSession,
+  ValidateCollabSessionResult,
+  CollabCursorData,
+  CollabPresence,
+  CollabComment,
+  AddCommentOptions,
+  CollabDocumentSnapshot,
+  SaveDocumentSnapshotOptions,
+  CollabChangeHistoryItem,
+  CollabChatMessage,
+  SendChatMessagePayload,
+} from './types.js';

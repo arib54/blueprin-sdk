@@ -5,23 +5,48 @@
 export interface FieldWeather {
   condition: 'cerah' | 'berawan' | 'hujan_ringan' | 'hujan_lebat' | 'badai';
   temperatureC?: number;
+  humidityPercent?: number;
+  windSpeedKmh?: number;
   impactOnWork: 'none' | 'partial_delay' | 'full_stoppage';
+  notes?: string;
+}
+
+export interface FieldGPSLocation {
+  latitude: number;
+  longitude: number;
+  accuracy?: number;
+  altitude?: number;
+  heading?: number;
+  speed?: number;
+  capturedAt: string;
+}
+
+export interface FieldPhoto {
+  id: string;
+  url: string;
+  caption?: string;
+  category: 'progress' | 'safety' | 'quality' | 'weather' | 'issue' | 'other';
+  takenAt: string;
+  gpsLocation?: FieldGPSLocation;
+  metadata?: Record<string, string | number>;
 }
 
 export interface FieldDailyLog {
   id: string;
   projectId: string;
-  date: string; // YYYY-MM-DD
+  date: string;
   weatherMorning: FieldWeather;
   weatherAfternoon: FieldWeather;
-  workforceCount: number; // total workers on site
-  workforceAttendance?: Record<string, number>; // e.g. { mandor: 1, tukang: 8, ladang: 4 }
-  equipmentOnSite?: string[]; // e.g. ['Excavator 20T', 'Molen Semen 2 unit']
+  workforceCount: number;
+  workforceAttendance?: Record<string, number>;
+  equipmentOnSite?: string[];
   completedActivities: string[];
   plannedNextActivities?: string[];
-  photos?: string[];
+  photos?: FieldPhoto[];
   notes?: string;
   supervisorName: string;
+  supervisorSignature?: string;
+  gpsLocation?: FieldGPSLocation;
   createdAt: string;
   updatedAt: string;
 }
@@ -33,19 +58,69 @@ export interface InspectionChecklistItem {
   status: 'pass' | 'fail' | 'na' | 'rework_required';
   notes?: string;
   photoUrl?: string;
+  correctiveAction?: string;
+  dueDate?: string;
 }
 
 export interface FieldInspection {
   id: string;
   projectId: string;
   title: string;
-  type: 'daily_k3' | 'pre_pour_concrete' | 'rebar_inspection' | 'scaffolding' | 'handover_punchlist';
+  type: 'daily_k3' | 'pre_pour_concrete' | 'rebar_inspection' | 'scaffolding' | 'handover_punchlist' | 'material_receive' | 'safety_walkdown';
   inspectorName: string;
   status: 'draft' | 'approved' | 'rejected' | 'pending_rework';
-  scorePercent: number; // 0 - 100%
+  scorePercent: number;
   items: InspectionChecklistItem[];
-  locationGPS?: { latitude: number; longitude: number };
+  photos?: FieldPhoto[];
+  locationGPS?: FieldGPSLocation;
   signedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FieldWorkforceEntry {
+  workerName: string;
+  role: string;
+  status: 'present' | 'absent' | 'half_day' | 'overtime';
+  hoursWorked?: number;
+  overtimeHours?: number;
+}
+
+export interface FieldEquipmentEntry {
+  equipmentName: string;
+  type: string;
+  status: 'operational' | 'maintenance' | 'broken' | 'idle';
+  hoursUsed?: number;
+  notes?: string;
+}
+
+export interface FieldDailyReport {
+  id: string;
+  projectId: string;
+  date: string;
+  dailyLog: FieldDailyLog;
+  workforce: FieldWorkforceEntry[];
+  equipment: FieldEquipmentEntry[];
+  issues: FieldIssue[];
+  weatherSummary: string;
+  productivityIndex?: number;
+  safetyScore?: number;
+  qualityScore?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FieldIssue {
+  id: string;
+  title: string;
+  description: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  category: 'safety' | 'quality' | 'schedule' | 'cost' | 'environment';
+  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  assignedTo?: string;
+  dueDate?: string;
+  photos?: FieldPhoto[];
+  gpsLocation?: FieldGPSLocation;
   createdAt: string;
   updatedAt: string;
 }

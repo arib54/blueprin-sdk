@@ -17,7 +17,16 @@ export type BimElementType =
   | 'IfcFooting'
   | 'IfcCovering'
   | 'IfcSpace'
-  | 'IfcBuildingElementProxy';
+  | 'IfcBuildingElementProxy'
+  | 'IfcStair'
+  | 'IfcRailing'
+  | 'IfcPipe'
+  | 'IfcDuct'
+  | 'IfcMember'
+  | 'IfcCurtainWall'
+  | 'IfcPlate'
+  | 'IfcFlowSegment'
+  | 'IfcDistributionPort';
 
 export interface BimDimensions {
   length?: number; // meters

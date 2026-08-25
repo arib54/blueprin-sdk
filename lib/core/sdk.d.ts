@@ -17,6 +17,10 @@ export declare class BlueprinSDK {
     private _schedule;
     private _marketplace;
     private _auth;
+    private _takeoff;
+    private _bim;
+    private _collab;
+    private _field;
     private _telemetry;
     private _initialized;
     constructor(options?: any);
@@ -38,6 +42,10 @@ export declare class BlueprinSDK {
     get schedule(): any;
     get marketplace(): any;
     get auth(): any;
+    get takeoff(): any;
+    get bim(): any;
+    get collab(): any;
+    get field(): any;
     init(): Promise<void>;
     /**
      * Alias for init() — backward-compatible with main app calling sdk.initialize()

@@ -221,8 +221,46 @@ export type {
 } from './bim/index.js';
 
 // Real-time Collaboration
-export { CollabClient } from './collab/index.js';
-export type { CollabUser, CollabRoom, CollabMessage } from './collab/index.js';
+export {
+  CollabClient,
+  CollabTransport,
+  COLLAB_ROLE_DEFINITIONS,
+  createOperation,
+  applyOperation,
+  resolveConflicts,
+  incrementClock,
+  mergeClocks,
+  happenedBefore,
+  areConcurrent,
+} from './collab/index.js';
+export type {
+  CollabUser,
+  CollabRoom,
+  CollabMessage,
+  CollabOperation,
+  CollabTransportConfig,
+  CollabTransportEvents,
+  CollabDocumentState,
+  CollabRoleName,
+  CollabPermissionKey,
+  CollabRoleDefinition,
+  CollabCollaborator,
+  InviteCollaboratorOptions,
+  CollabInviteResult,
+  CreateCollabSessionOptions,
+  CollabSession,
+  ValidateCollabSessionResult,
+  CollabCursorData,
+  CollabPresence,
+  CollabComment,
+  AddCommentOptions,
+  CollabDocumentSnapshot,
+  SaveDocumentSnapshotOptions,
+  CollabChangeHistoryItem,
+  CollabChatMessage,
+  SendChatMessagePayload,
+  CollabClientOptions,
+} from './collab/index.js';
 
 // Mobile / Field Inspection
 export { FieldClient } from './field/index.js';
