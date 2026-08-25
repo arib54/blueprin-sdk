@@ -6,6 +6,7 @@
 
 import { generateId } from '../utils/index.js';
 import { BimEngine } from './bim-engine.js';
+import { parseIfcFile, type IfcParseResult, type IfcParseOptions } from './ifc-parser.js';
 import type { BimModel, BimElement, BimModelSummary } from './types.js';
 
 export class BimClient {
@@ -62,6 +63,43 @@ export class BimClient {
     this._events.emit('blueprin:bim:model:imported', { model });
 
     return model;
+  }
+
+  /**
+   * Import an IFC file by parsing its buffer and extracting elements.
+   * This is the primary method for ingesting IFC files into the SDK.
+   */
+  async importFromIfcBuffer(
+    projectId: string,
+    filename: string,
+    buffer: ArrayBuffer | Uint8Array,
+    options: IfcParseOptions & { name?: string; schemaLOD?: BimModel['schemaLOD'] } = {}
+  ): Promise<{ model: BimModel; parseResult: IfcParseResult }> {
+    const { name, schemaLOD, ...parseOptions } = options;
+
+    const parseResult = parseIfcFile(buffer, parseOptions);
+
+    const model = await this.importModel({
+      projectId,
+      name: name || filename.replace(/\.(ifc|IFC)$/, ''),
+      filename,
+      ifcVersion: parseResult.ifcVersion as BimModel['ifcVersion'],
+      elements: parseResult.elements,
+      schemaLOD,
+    });
+
+    this._events.emit('blueprin:bim:model:imported:ifc', {
+      model,
+      parseResult: {
+        totalEntities: parseResult.totalEntities,
+        parsedEntities: parseResult.parsedEntities,
+        storeys: parseResult.storeys,
+        materials: parseResult.materials,
+        parseTimeMs: parseResult.parseTimeMs,
+      },
+    });
+
+    return { model, parseResult };
   }
 
   async calculateTakeoff(modelId: string): Promise<BimModelSummary> {
